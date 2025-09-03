@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-bo_-225kz8ufh9$s&@+wxm2%^nvlp%k#1)ln&3x$$yv9)!gq5q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.15']
 
 
 # Application definition
@@ -80,7 +80,7 @@ DATABASES = {
         "NAME": "mydb",
         "USER":"root",
         "PASSWORD":"1234",
-        "HOST":"127.0.0.1",
+        "HOST":"192.168.0.15",
         "PORT":"3306",
         "OPTIONS":{
             "charset":"utf8mb4" # mb4 이모지 처리 가능
