@@ -1,9 +1,122 @@
+
 <!-- C:\Users\SeYun\anaconda3\envs\day0731\anal_4\lm13_Quiz\templates\predict.html -->
 <!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
   <title>090400근무년수로 예상 연봉 예측</title>
+  <style>
+    body { font-family: sans-serif; max-width: 720px; margin: 40px auto; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-top: 16px; }
+    .row { display: flex; gap: 8px; align-items: center; }
+    input[type=number] { width: 140px; padding: 6px 8px; }
+    button { padding: 6px 12px; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { border: 1px solid #eee; padding: 8px; text-align: left; }
+    th { background: #fafafa; }
+    .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <h1>회귀분석 문제 4) 근무년수 → 예상 연봉</h1>
+
+  <div class="card">
+    <!-- 방법 A) AJAX 방식: submit() 눌러도 JS가 가로채서 fetch로 JSON 받아서 아래에 뿌림 -->
+    <form id="predict-form" class="row" onsubmit="return submitPredict(event);">
+      <label for="years">근무년수 :</label>
+      <input id="years" name="years" type="number" min="0" step="0.1" placeholder="예: 3.5" required />
+      <button type="submit">확인버튼</button>
+    </form>
+
+    <div style="margin-top:12px;">
+      <div>예상연봉액 : <span id="predicted" class="mono">--------</span></div>
+      <div>설명력 : <span id="r2" class="mono">**%</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>직급별 연봉평균</h3>
+    <table id="rank-table">
+      <thead>
+        <tr><th>직급</th><th>평균 연봉(원)</th></tr>
+      </thead>
+      <tbody id="rank-tbody">
+        <!-- 동적 채움 -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>방법 B) 전통 submit (원하면 사용)</h3>
+    <form action="/api/predict/" method="get" class="row" target="_blank">
+      <label for="years2">근무년수 :</label>
+      <input id="years2" name="years" type="number" min="0" step="0.1" placeholder="예: 3.5" required />
+      <button type="submit">JSON 보기</button>
+    </form>
+    <p class="mono" style="margin-top:8px;">(새 창에 JSON 그대로 표시됩니다)</p>
+  </div>
+
+  <script>
+    async function loadSummary() {
+      try {
+        const res = await fetch('/api/summary/');
+        const data = await res.json();
+        if (data.error) return;
+
+        if (typeof data.r2 === 'number') {
+          document.getElementById('r2').textContent = (data.r2 * 100).toFixed(2) + '%';
+        }
+        const tbody = document.getElementById('rank-tbody');
+        tbody.innerHTML = '';
+        (data.by_rank || []).forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td>${row.rank ?? '미정'}</td><td>${Number(row.avg_pay).toLocaleString('ko-KR')}</td>`;
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function submitPredict(e) {
+    // ✅ 기본 제출 즉시 막기 (새로고침 방지)
+    if (e) e.preventDefault();
+
+    const years = document.getElementById('years').value;
+    if (!years) return false;
+
+    try {
+      const res = await fetch(`/api/predict/?years=${encodeURIComponent(years)}`);
+      if (!res.ok) {
+        alert('오류: ' + (await res.text()));
+        return false;
+      }
+      const data = await res.json();
+      document.getElementById('predicted').textContent =
+        Number(data.predicted_pay).toLocaleString('ko-KR');
+
+      if (typeof data.r2 === 'number') {
+        document.getElementById('r2').textContent = (data.r2 * 100).toFixed(2) + '%';
+      }
+    } catch (e) {
+      alert('요청 중 오류가 발생했습니다.');
+      console.error(e);
+    }
+    // 이건 있어도 되고 없어도 됩니다.
+    return false;
+  }
+
+    loadSummary();
+  </script>
+</body>
+</html>
+=======
+<!-- C:\Users\SeYun\anaconda3\envs\day0731\anal_4\lm13_Quiz\templates\predict.html -->
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>0904근무년수로 예상 연봉 예측</title>
   <style>
     body { font-family: sans-serif; max-width: 720px; margin: 40px auto; }
     .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin-top: 16px; }
