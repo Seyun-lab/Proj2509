@@ -25,7 +25,9 @@ SECRET_KEY = "django-insecure-bo_-225kz8ufh9$s&@+wxm2%^nvlp%k#1)ln&3x$$yv9)!gq5q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -71,9 +73,10 @@ WSGI_APPLICATION = "mainapp.wsgi.application"
 STATIC_URL='static/'
 STATICFILES_DIRS=[BASE_DIR/'static']
 
+# ------------DB------------
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+#ALLOWED_HOSTS = ['192.168.0.15']
 DATABASES = {
    "default": {
         "ENGINE": "django.db.backends.mysql",
