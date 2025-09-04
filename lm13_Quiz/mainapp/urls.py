@@ -7,9 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # 페이지
-    path('', views.predict_page, name='predict_page'),  # / → predict.html
+    path('2/', views.predictModel, name='model_page'), # 예측 모델 페이지
+    path('', views.result, name='result'), # 시각화 이미지 출력 페이지
 
-    # API(JSON)
-    path('api/predict/', views.api_predict, name='api_predict'),
-    path('api/summary/', views.api_summary, name='api_summary'),
 ]

@@ -26,6 +26,8 @@ SECRET_KEY = "django-insecure-bo_-225kz8ufh9$s&@+wxm2%^nvlp%k#1)ln&3x$$yv9)!gq5q
 DEBUG = True
 
 
+ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -81,7 +83,6 @@ DATABASES = {
         "NAME": "mydb",
         "USER":"root",
         "PASSWORD":"1234",
-       # "HOST":"192.168.0.15",
         "HOST":"127.0.0.1",
         "PORT":"3306",
         "OPTIONS":{
@@ -127,6 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
