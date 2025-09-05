@@ -1,3 +1,5 @@
+노션: 
+https://www.notion.so/gyeoul-deep-room/Team-1-25e27bc8ba1480c9ac04e6bc1ac39528?source=copy_link
 
 ````markdown
 # Proj2509  
